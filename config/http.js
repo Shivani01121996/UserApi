@@ -32,16 +32,7 @@ module.exports.http = {
      ***************************************************************************/
 
     order: [
-      // 'cookieParser',
-      // 'authCookieParser',
-      // 'session',
       'bodyParser',
-      // 'compress',
-      // 'poweredBy',
-      // 'router',
-      // 'www',
-      // 'favicon',
-      // 'logResponseTime',
       'elasticApm'
     ],
 
@@ -54,7 +45,7 @@ module.exports.http = {
      *                                                                          *
      ***************************************************************************/
 
-    bodyParser: (function _configureBodyParser(){
+    bodyParser: (function _configureBodyParser() {
       var skipper = require('skipper');
       var middlewareFn = skipper({
         strict: true,
@@ -64,49 +55,18 @@ module.exports.http = {
       return middlewareFn;
     })(),
 
-    // logResponseTime: function(req, res, next) {
-    //   const startHrTime = process.hrtime();
-
-    //   res.on('finish', () => {
-    //     const elapsedHrTime = process.hrtime(startHrTime);
-    //     const elapsedTimeInMs =
-    //       elapsedHrTime[0] * 1000 + elapsedHrTime[1] / 1e6;
-    //     console.log('%s : %fms', req.path, elapsedTimeInMs);
-    //   });
-
-    //   next();
-    // },
-
-    // This middleware enables api access via cookies
-    // it simply checks if the authroiation header is present or not
-    // if not present, it checks for accessToken cookie.
-    // if so, it sets the authorization header
-    // authCookieParser: function(req, res, next) {
-    //   const authHeader = req.get('Authorization') || req.get('authorization');
-    //   const accessTokenCookie = req.cookies && req.cookies.accessToken ? req.cookies.accessToken: null;
-
-    //   if(!authHeader && accessTokenCookie) {
-    //     if(!req.headers) req.headers = {};
-    //     req.headers['authorization'] = `Bearer ${accessTokenCookie}`;
-    //   }
-    //   next();
-    // },
-
-    // set apm context
-    // team_id
-    // user_id
-    // username
-    elasticApm: function(req, res, next) {
-      // try {
-      //   // if(req.user) {
-      //   //   const { team, id, username } = req.user;
-      //   //   apm.setLabel('team_id', team);
-      //   //   apm.setLabel('user_id', id);
-      //   //   apm.setLabel('username', username);
-      //   // }
-      // } catch(err) {
-      //   console.log('elasticApm middleware error', err);
-      // }
+    /***************************************************************************
+     *                                                                          *
+     * Custom middleware functions defined below. Examples:                     *
+     *   - initialize passport                                                  *
+     *   - custom logger                                                        *
+     *                                                                          *
+     ***************************************************************************/
+    elasticApm: function (req, res, next) {
+      try {
+      } catch (err) {
+        console.log('elasticApm middleware error', err);
+      }
       next();
     },
   },

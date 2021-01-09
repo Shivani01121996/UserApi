@@ -33,7 +33,7 @@ module.exports.models = {
    *                                                                          *
    ***************************************************************************/
 
-  schema: true,
+  // schema: true,
 
   /***************************************************************************
    *                                                                          *
@@ -50,7 +50,7 @@ module.exports.models = {
    *                                                                          *
    ***************************************************************************/
 
-  migrate: 'safe',
+  migrate: 'alter',
 
   /***************************************************************************
    *                                                                          *
@@ -105,10 +105,6 @@ module.exports.models = {
    *                                                                             *
    ******************************************************************************/
 
-  dataEncryptionKeys: {
-    default: '2L5OJIuuy2JaTwHC3/JgR6nBEsNGPtC0YrGp/ryW/Go='
-  },
-
   /***************************************************************************
    *                                                                          *
    * Whether or not implicit records for associations should be cleaned up    *
@@ -124,45 +120,4 @@ module.exports.models = {
 
   cascadeOnDestroy: true,
 
-  /* Custom helper */
-  createIfNotExists: function(criteria, values, db) {
-    var self = this; // reference for use by callbacks
-
-    // If no values were specified, use criteria
-    if (!values) {
-      values = criteria.where ? criteria.where : criteria;
-    }
-
-    return this.findOne(criteria).then(result => {
-      if (!result) {
-        if (db) { return self.create(values).fetch().usingConnection(db); }
-        else { return self.create(values).fetch(); }
-      }
-
-      return result;
-    });
-  },
-  updateOrCreate: function(criteria, values, db) {
-    var self = this; // reference for use by callbacks
-
-    // If no values were specified, use criteria
-    if (!values) {
-      values = criteria.where ? criteria.where : criteria;
-    }
-
-    return this.findOne(criteria).then(result => {
-      if (result) {
-        // console.log("update", criteria, values);
-        const normalisedValues = _.extend({}, values);
-        delete normalisedValues['id'];
-
-        if (db) { return self.updateOne(criteria).set(normalisedValues).usingConnection(db); }
-        else { return self.updateOne(criteria).set(normalisedValues); }
-
-      } else {
-        if (db) { return self.create(values).fetch().usingConnection(db); }
-        else { return self.create(values).fetch(); }
-      }
-    });
-  }
 };
